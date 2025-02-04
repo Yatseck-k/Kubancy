@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* В resources/css/app.css или в стилях компонента */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: #1F2937; /* или другой цвет для фона */
+}
+/* В resources/css/app.css */
+body {
+    padding-top: 60px; /* Отступ сверху, чтобы панель не перекрывала контент */
+}

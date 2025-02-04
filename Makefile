@@ -1,4 +1,4 @@
-run-app-with-setup:
+run-app-with-setup:make code-test
 	cp ./src/.env.example ./src/.env
 	docker compose build
 	docker compose up -d
