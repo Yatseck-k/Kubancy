@@ -12,11 +12,6 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    private CreatePostRequest $createPostRequest;
-    public function __construct(CreatePostRequest $createPostRequest)
-    {
-         $this->createPostRequest = $createPostRequest;
-    }
 
     public function index(): View|Factory|Application
     {
@@ -46,7 +41,6 @@ class PostController extends Controller
         return redirect()->route('dashboard')->with('success', 'Пост успешно создан');
     }
 
-    // Метод для отображения конкретного поста
     public function show(Post $post)
     {
         return view('posts.show', compact('post'));

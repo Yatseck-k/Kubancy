@@ -1,4 +1,5 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false, searchOpen: false }"
+     class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -9,18 +10,41 @@
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"/>
                     </a>
                 </div>
-
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Читать') }}
+                        Читать
                     </x-nav-link>
-                    <x-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')" wire:navigate>
-                        {{ __('Писать') }}
+                    <x-nav-link :href="route('posts.create')" :active="request()->routeIs('posts.create')"
+                                wire:navigate>
+                        Писать
                     </x-nav-link>
                 </div>
+                <!-- Search Button -->
+                <div class="hidden sm:flex items-center ms-4">
+                    <button @click="searchOpen = !searchOpen"
+                            class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Search Dropdown -->
+                <div x-show="searchOpen" @click.away="searchOpen = false"
+                     class="absolute top-16 left-0 w-200 sm:w-96 z-50 bg-white dark:bg-gray-800 rounded-lg shadow-md p-4">
+                    <form action="#" method="GET" class="flex space-x-2">
+                        <!-- Уменьшенное поле поиска -->
+                        <input type="text" name="query" placeholder="Поиск..."
+                               class="w-200 sm:w-64 px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-md focus:ring focus:ring-indigo-200 focus:outline-none"/>
+                        <button type="submit"
+                                class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none">
+                            Найти
+                        </button>
+                    </form>
+                </div>
             </div>
-
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
@@ -29,7 +53,6 @@
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                             <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name"
                                  x-on:profile-updated.window="name = $event.detail.name"></div>
-
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
                                      viewBox="0 0 20 20">
@@ -40,22 +63,21 @@
                             </div>
                         </button>
                     </x-slot>
-
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile')" wire:navigate>
-                            {{ __('Профиль') }}
+                            Профиль
                         </x-dropdown-link>
-
                         <!-- Authentication -->
-                        <button wire:click="Livewire.emit('logout')" class="w-full text-start">
-                            <x-dropdown-link>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <x-dropdown-link href="{{ route('logout') }}"
+                                             onclick="event.preventDefault(); this.closest('form').submit();">
                                 {{ __('Выход') }}
                             </x-dropdown-link>
-                        </button>
+                        </form>
                     </x-slot>
                 </x-dropdown>
             </div>
-
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open"
@@ -71,15 +93,13 @@
             </div>
         </div>
     </div>
-
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                {{ __('Dashboard') }}
+                Dashboard
             </x-responsive-nav-link>
         </div>
-
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
@@ -88,18 +108,18 @@
                      x-on:profile-updated.window="name = $event.detail.name"></div>
                 <div class="font-medium text-sm text-gray-500">{{ auth()->user()->email }}</div>
             </div>
-
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>
-                    {{ __('Профиль') }}
+                    Профиль
                 </x-responsive-nav-link>
-
                 <!-- Authentication -->
-                <button wire:click="Livewire.emit('logout')" class="w-full text-start">
-                    <x-responsive-nav-link>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <x-responsive-nav-link href="{{ route('logout') }}"
+                                           onclick="event.preventDefault(); this.closest('form').submit();">
                         {{ __('Выйти') }}
                     </x-responsive-nav-link>
-                </button>
+                </form>
             </div>
         </div>
     </div>
