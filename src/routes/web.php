@@ -1,22 +1,21 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 
-// Маршруты для аутентификации
-Route::view('/', 'welcome'); // Главная страница
+require __DIR__ . '/auth.php';
 
+Route::view('/', 'welcome');
+
+// Authenticated and verified routes
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Страница с постами
     Route::get('dashboard', [PostController::class, 'index'])->name('dashboard');
-
-    // Страница профиля пользователя
     Route::view('profile', 'profile')->name('profile');
 
-    // Маршруты для создания и отображения постов
-    Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
-    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
-    Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+    Route::prefix('posts')->name('posts.')->group(function () {
+        Route::get('/create', [PostController::class, 'create'])->name('create');
+        Route::post('/', [PostController::class, 'store'])->name('store');
+        Route::get('/{post}', [PostController::class, 'show'])->name('show');
+    });
 });
-
-require __DIR__ . '/auth.php';
