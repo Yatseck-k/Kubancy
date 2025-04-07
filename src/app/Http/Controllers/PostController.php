@@ -12,10 +12,10 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-
     public function index(): View|Factory|Application
     {
         $posts = Post::all();
+
         return view('dashboard', compact('posts'));
     }
 
@@ -26,7 +26,7 @@ class PostController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-       $createRequest = new CreatePostRequest($request);
+        $createRequest = new CreatePostRequest($request);
         $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',

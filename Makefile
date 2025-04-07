@@ -39,3 +39,21 @@ code-format:
 
 code-test:
 	docker exec php /bin/sh -c "php artisan test"
+
+.PHONY: all analyse pint test audit check
+
+all: check
+
+analyse:
+	vendor/bin/phpstan analyse --memory-limit=1G
+
+pint:
+	vendor/bin/pint
+
+test:
+	php artisan test
+
+audit:
+	composer audit
+
+check: analyse pint test audit
