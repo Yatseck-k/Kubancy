@@ -1,7 +1,4 @@
 {
     "preset": "laravel",
-    "exclude": [
-        "storage",
-        "vendor"
-    ]
+    "exclude": ["storage", "vendor"]
 }

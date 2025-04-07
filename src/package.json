@@ -4,9 +4,9 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "prettier": "prettier",
-        "format": "npm run prettier -- . --write",
-        "format:check": "npm run prettier -- . --check"
+        "format": "prettier . --write",
+        "format:check": "npm run prettier -- . --check",
+        "prettier": "prettier"
     },
     "devDependencies": {
         "@prettier/plugin-php": "^0.19.3",
