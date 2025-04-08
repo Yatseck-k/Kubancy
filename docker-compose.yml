@@ -53,5 +53,6 @@ services:
             - ./src:/var/www/app
         ports: 
             - "${PHP_HOST_PORT}:${PHP_DOCKER_CONTAINER_PORT}"
+            - "5173:5173"
         networks: 
             - laravel

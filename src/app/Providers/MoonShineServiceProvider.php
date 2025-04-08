@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\MoonShine\Pages\Posts;
-use App\MoonShine\Pages\Users;
 use App\MoonShine\Resources\MoonShineUserResource;
 use App\MoonShine\Resources\MoonShineUserRoleResource;
 use App\MoonShine\Resources\PostResource;
@@ -34,8 +32,6 @@ class MoonShineServiceProvider extends ServiceProvider
             ])
             ->pages([
                 ...$config->getPages(),
-                Users::class,
-                Posts::class,
             ]);
     }
 }
